@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PathPilot AI — Course Selector & Learning Path Builder</title>
+<style>
+:root{--bg:#f6f8fc;--ink:#172033;--muted:#68738a;--primary:#5b5ce2;--primary2:#7778f4;--line:#e6e9f2;--card:#fff;--mint:#dff8ef}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}button,input,select{font:inherit}.shell{max-width:1180px;margin:auto;padding:0 24px}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:rgba(255,255,255,.82);padding:0 max(24px,calc((100vw - 1180px)/2));gap:20px}.brand{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:-.5px;font-size:20px}.logo{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;color:white;background:linear-gradient(135deg,var(--primary),#9b6cf5);font-size:20px}.navlinks{display:flex;gap:24px;color:var(--muted);font-size:14px}.navlinks a{color:inherit;text-decoration:none}.navlinks a:hover{color:var(--primary)}.navtag{font-size:12px;padding:7px 12px;border:1px solid #d9dafd;border-radius:99px;color:var(--primary);font-weight:700;background:#f2f2ff}
+.hero{padding:52px 0 34px;display:grid;grid-template-columns:1.1fr .9fr;gap:42px;align-items:center}.eyebrow{display:inline-flex;align-items:center;gap:8px;background:#ececff;color:var(--primary);padding:7px 12px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.4px}.hero h1{font-size:clamp(34px,5vw,56px);line-height:1.08;letter-spacing:-2px;margin:18px 0}.gradient{background:linear-gradient(100deg,#5557d9,#a34ed8);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{font-size:17px;color:var(--muted);max-width:580px}.hero-actions{display:flex;gap:12px;align-items:center;margin-top:25px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:12px 17px;font-weight:750;cursor:pointer;transition:.2s}.btn-primary{color:white;background:var(--primary);box-shadow:0 8px 20px #5b5ce22c}.btn-primary:hover{background:#4748ca;transform:translateY(-1px)}.btn-secondary{background:white;border:1px solid var(--line);color:var(--ink)}.hero-note{font-size:12px;color:var(--muted);margin-top:13px}.preview{position:relative;background:linear-gradient(145deg,#e9eaff,#f6e9ff);border-radius:28px;padding:22px;min-height:330px;overflow:hidden}.preview:before,.preview:after{content:"";position:absolute;border-radius:50%;filter:blur(1px)}.preview:before{width:190px;height:190px;background:#c8c7ff;right:-55px;top:-50px}.preview:after{width:140px;height:140px;background:#d4f6eb;left:-35px;bottom:-45px}.preview-card{position:relative;z-index:1;background:white;border:1px solid #ffffffbd;border-radius:18px;padding:18px;margin:10px 0;box-shadow:0 14px 35px #393b7720}.preview-top{display:flex;justify-content:space-between;gap:12px;align-items:center}.tiny{font-size:11px;color:var(--muted)}.progress{height:8px;border-radius:20px;background:#edf0f7;overflow:hidden;margin:12px 0}.progress span{display:block;height:100%;width:68%;background:linear-gradient(90deg,#5b5ce2,#9d6cf2);border-radius:20px}.mini-row{display:flex;align-items:center;gap:12px;margin-top:13px}.mini-icon{width:38px;height:38px;border-radius:12px;background:#f0efff;display:grid;place-items:center;font-size:19px}.mini-row strong{font-size:13px}.mini-row .tiny{display:block}.float-pill{position:absolute;right:14px;bottom:22px;background:#fff;padding:11px 14px;border-radius:14px;box-shadow:0 10px 30px #393b7720;font-size:12px;font-weight:800;z-index:2}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:8px 0 40px}.stat{padding:16px 20px;background:white;border:1px solid var(--line);border-radius:16px;display:flex;align-items:center;gap:12px}.stat-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:#f0efff;font-size:20px}.stat strong{display:block;font-size:18px}.stat span{font-size:12px;color:var(--muted)}
+.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}.section-head h2{margin:0;font-size:28px;letter-spacing:-.8px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:14px}.builder{display:grid;grid-template-columns:350px 1fr;gap:22px;align-items:start;margin-bottom:58px}.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 5px 18px #17203305}.panel h3{margin:0 0 5px;font-size:18px}.sub{font-size:13px;color:var(--muted);margin:0 0 22px}.field{margin:18px 0}.field label{display:block;font-weight:750;font-size:13px;margin-bottom:8px}.field select,.field input{width:100%;border:1px solid #dfe3ed;background:#fff;border-radius:11px;padding:12px;color:var(--ink);outline:none}.field select:focus,.field input:focus{border-color:var(--primary);box-shadow:0 0 0 3px #5b5ce21b}.hint{font-size:11px;color:var(--muted);margin-top:6px}.checkrow{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);margin-top:12px}.checkrow input{accent-color:var(--primary)}.wide{width:100%;margin-top:10px}.result-top{display:flex;justify-content:space-between;align-items:start;gap:15px}.pill{white-space:nowrap;background:var(--mint);color:#177654;padding:6px 10px;border-radius:99px;font-size:11px;font-weight:800}.result-top h3{font-size:22px;letter-spacing:-.5px;margin:0}.result-top p{font-size:13px;color:var(--muted);margin:6px 0 0}.result-meta{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.meta{background:#f5f6fb;border:1px solid var(--line);padding:7px 10px;border-radius:9px;font-size:12px;color:#505b71}.tabs{display:flex;gap:7px;border-bottom:1px solid var(--line);margin-top:20px}.tab{padding:10px 12px;border:0;background:transparent;color:var(--muted);font-weight:750;font-size:13px;cursor:pointer;border-bottom:2px solid transparent}.tab.active{color:var(--primary);border-color:var(--primary)}.course-list{display:grid;gap:12px;margin-top:16px}.course{border:1px solid var(--line);border-radius:14px;padding:15px;display:grid;grid-template-columns:46px 1fr auto;gap:13px;align-items:center}.course-icon{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:#f0efff;font-size:22px}.course h4{margin:0 0 4px;font-size:14px}.course p{margin:0;color:var(--muted);font-size:12px}.course a{color:var(--primary);font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap}.course a:hover{text-decoration:underline}.path-list{display:grid;gap:0;margin-top:20px}.week{display:grid;grid-template-columns:78px 1fr;gap:14px;position:relative;padding-bottom:20px}.week:not(:last-child):before{content:"";position:absolute;left:29px;top:34px;bottom:0;width:2px;background:#e6e4ff}.weekno{width:60px;height:34px;border-radius:10px;background:#efefff;color:var(--primary);display:grid;place-items:center;font-weight:850;font-size:12px;z-index:1}.weekbody{border:1px solid var(--line);border-radius:13px;padding:14px 16px}.weekbody h4{margin:0 0 5px;font-size:14px}.weekbody p{margin:0;color:var(--muted);font-size:12px}.weekbody .deliverable{margin-top:9px;color:#4d50c7;font-size:12px;font-weight:750}.empty{padding:25px;text-align:center;color:var(--muted);font-size:13px}.footer{padding:26px 0 36px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}.toast{display:none;margin-top:14px;padding:10px 12px;background:#e8fbf3;border:1px solid #c9f1e2;border-radius:10px;color:#177654;font-size:12px}
+@media(max-width:850px){.hero{grid-template-columns:1fr;padding-top:35px}.preview{min-height:280px}.builder{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.navlinks{display:none}.section-head{align-items:start;flex-direction:column}.panel{padding:20px}}@media(max-width:500px){.shell{padding:0 15px}.nav{padding:0 15px;height:66px}.navtag{display:none}.hero h1{letter-spacing:-1.2px}.course{grid-template-columns:40px 1fr}.course a{grid-column:2}.course-icon{width:40px;height:40px}.week{grid-template-columns:65px 1fr;gap:8px}.weekno{width:56px}.preview{padding:13px}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="brand"><span class="logo">✦</span> PathPilot <span class="gradient">AI</span></div>
+  <div class="navlinks"><a href="#how">How it works</a><a href="#builder">Build my path</a><a href="#courses">Courses</a></div>
+  <span class="navtag">✧ Your learning, mapped</span>
+</nav>
+<main class="shell">
+  <section class="hero" id="how">
+    <div>
+      <span class="eyebrow">✦ SMARTER LEARNING STARTS HERE</span>
+      <h1>Find your course.<br>Build your <span class="gradient">future.</span></h1>
+      <p>Tell us what you want to learn and how much time you have. Get a beginner-friendly course shortlist and a week-by-week learning path made for you.</p>
+      <div class="hero-actions"><button class="btn btn-primary" onclick="document.getElementById('builder').scrollIntoView({behavior:'smooth'})">Build my learning path ↗</button><button class="btn btn-secondary" onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'})">Explore courses</button></div>
+      <div class="hero-note">✓ Beginner friendly &nbsp; ✓ Clear weekly goals &nbsp; ✓ Project focused</div>
+    </div>
+    <div class="preview" aria-label="Learning dashboard preview">
+      <div class="preview-card">
+        <div class="preview-top"><div><div class="tiny">YOUR LEARNING JOURNEY</div><strong>Python Programming</strong></div><span class="pill">In progress</span></div>
+        <div class="progress"><span></span></div>
+        <div class="preview-top"><span class="tiny">Your sample progress</span><strong>68%</strong></div>
+      </div>
+      <div class="preview-card">
+        <div class="tiny">UP NEXT</div>
+        <div class="mini-row"><div class="mini-icon">🐍</div><div><strong>Functions & reusable code</strong><span class="tiny">Week 3 · 3 short lessons</span></div></div>
+        <div class="mini-row"><div class="mini-icon">🧩</div><div><strong>Build a mini project</strong><span class="tiny">Practice what you learned</span></div></div>
+      </div>
+      <div class="float-pill">🎯 One step at a time</div>
+    </div>
+  </section>
+  <section class="stats">
+    <div class="stat"><div class="stat-icon">🧭</div><div><strong>Personalized</strong><span>Based on your goal</span></div></div>
+    <div class="stat"><div class="stat-icon">🗓️</div><div><strong>Week by week</strong><span>Small, practical milestones</span></div></div>
+    <div class="stat"><div class="stat-icon">🚀</div><div><strong>Project first</strong><span>Turn learning into doing</span></div></div>
+  </section>
+  <section id="builder">
+    <div class="section-head"><div><h2>Build your learning path</h2><p>Choose your preferences and create a plan you can actually follow.</p></div></div>
+    <div class="builder">
+      <form class="panel" id="plannerForm">
+        <h3>Your learning goals</h3><p class="sub">A few details help us shape your plan.</p>
+        <div class="field"><label for="skill">What do you want to learn?</label><select id="skill"><option>Python Programming</option><option>Web Development</option><option>Java Programming</option><option>Data Science</option><option>Artificial Intelligence</option><option>UI/UX Design</option><option>Cybersecurity</option></select></div>
+        <div class="field"><label for="level">Your current level</label><select id="level"><option value="Beginner">Beginner — starting from zero</option><option value="Intermediate">Intermediate — know the basics</option><option value="Advanced">Advanced — want to specialize</option></select></div>
+        <div class="field"><label for="duration">How long do you have?</label><select id="duration"><option value="4">4 weeks</option><option value="6">6 weeks</option><option value="8" selected>8 weeks</option><option value="12">12 weeks</option></select></div>
+        <div class="field"><label for="hours">Study time per day</label><select id="hours"><option value="20">20 minutes</option><option value="30" selected>30 minutes</option><option value="60">1 hour</option><option value="90">1.5 hours</option><option value="120">2 hours</option></select><div class="hint">Consistency matters more than long sessions.</div></div>
+        <div class="field"><label for="goal">Your main goal</label><select id="goal"><option value="college">College & exams</option><option value="career">Job-ready skills</option><option value="project">Build a project</option><option value="explore">Explore a new topic</option></select></div>
+        <label class="checkrow"><input id="projects" type="checkbox" checked> Include hands-on mini projects</label>
+        <button class="btn btn-primary wide" type="submit">✨ Generate my learning path</button>
+        <div class="toast" id="toast" role="status">Your learning path has been updated below.</div>
+      </form>
+      <div class="panel" id="results">
+        <div class="result-top"><div><h3 id="planTitle">Your Python learning path</h3><p id="planSubtitle">A realistic starter plan, one week at a time.</p></div><span class="pill">PERSONAL PLAN</span></div>
+        <div class="result-meta"><span class="meta" id="metaDuration">🗓️ 8 weeks</span><span class="meta" id="metaTime">⏱️ 30 min/day</span><span class="meta" id="metaLevel">🌱 Beginner</span></div>
+        <div class="tabs"><button class="tab active" data-tab="path">Learning path</button><button class="tab" data-tab="courses">Recommended courses</button></div>
+        <div id="pathPanel"><div class="path-list" id="pathList"></div></div>
+        <div id="coursePanel" style="display:none"><div class="course-list" id="courseList"></div></div>
+      </div>
+    </div>
+  </section>
+  <section id="courses" style="padding-bottom:48px">
+    <div class="section-head"><div><h2>Learning resources to start with</h2><p>Begin with trusted, accessible resources. Course availability may vary.</p></div></div>
+    <div class="course-list" id="featuredCourses">
+      <article class="course"><div class="course-icon">🐍</div><div><h4>Python for Everybody</h4><p>Beginner-friendly Python lessons from the University of Michigan.</p></div><a href="https://www.py4e.com/" target="_blank" rel="noopener">Open resource ↗</a></article>
+      <article class="course"><div class="course-icon">🌐</div><div><h4>MDN Learn Web Development</h4><p>HTML, CSS and JavaScript learning guides with practical exercises.</p></div><a href="https://developer.mozilla.org/en-US/docs/Learn" target="_blank" rel="noopener">Open resource ↗</a></article>
+      <article class="course"><div class="course-icon">📊</div><div><h4>Kaggle Learn</h4><p>Short, hands-on tutorials for Python, data and machine learning.</p></div><a href="https://www.kaggle.com/learn" target="_blank" rel="noopener">Open resource ↗</a></article>
+    </div>
+  </section>
+  <footer class="footer"><span>✦ PathPilot AI — Course Selector & Learning Path Builder</span><span>Demo website · Plans are generated from built-in templates, not a live AI service.</span></footer>
+</main>
+<script>
+const plans = {
+"Python Programming":[
+["Set up & first steps","Install Python or use an online editor. Learn print(), comments and running a program.","Write a hello-world program."],
+["Variables & decisions","Practice variables, data types, input/output and if/else conditions.","Create a simple marks calculator."],
+["Loops & collections","Use for/while loops, strings, lists and dictionaries.","Make a small quiz or shopping list."],
+["Functions","Break code into reusable functions and understand parameters and return values.","Build a calculator with functions."],
+["Working with data","Practice tuples, sets, files and basic error handling.","Save and read a simple notes file."],
+["Useful Python tools","Learn modules and use a beginner-friendly library relevant to your goal.","Explore a small data or automation example."],
+["Build your project","Plan, code and test one project. Search documentation when stuck.","Create a mini project from scratch."],
+["Review & showcase","Revise core ideas, fix bugs and write a short project explanation.","Publish or present your finished project."]
+],
+"Web Development":[
+["How the web works","Learn browsers, websites, URLs and basic developer tools.","Sketch a simple web page."],
+["HTML foundations","Use headings, paragraphs, links, images, lists and forms.","Build a personal profile page."],
+["CSS foundations","Practice colors, spacing, typography, box model and selectors.","Style your profile page."],
+["Responsive layouts","Learn Flexbox, Grid and mobile-first design.","Make the page work on mobile."],
+["JavaScript basics","Practice variables, conditions, loops, functions and arrays.","Build a number guessing game."],
+["DOM & events","Select elements, react to clicks and update page content.","Build an interactive to-do list."],
+["Build a website","Combine HTML, CSS and JavaScript into a small project.","Create a portfolio or study tracker."],
+["Test & publish","Fix layout issues, check accessibility and publish your work.","Share a working website link."]
+],
+"Java Programming":[
+["Setup & first program","Set up a Java environment or online editor; learn program structure.","Run Hello World."],
+["Variables & operators","Practice types, input/output and arithmetic operators.","Create a basic calculator."],
+["Conditions & loops","Use if/else, switch, for and while loops.","Build a number guessing game."],
+["Methods & arrays","Write reusable methods and work with arrays and strings.","Create a marks summary."],
+["Classes & objects","Understand classes, objects, fields and constructors.","Model a student record."],
+["OOP basics","Practice inheritance, encapsulation and polymorphism.","Create a simple class hierarchy."],
+["Collections & errors","Explore ArrayList and basic exception handling.","Build a contact list."],
+["Project & review","Combine your skills, test and explain your code.","Finish a small Java application."]
+],
+"Data Science":[
+["Data science overview","Understand datasets, rows, columns, questions and basic statistics.","Choose a small public dataset."],
+["Python refresh","Practice variables, lists, loops and functions.","Write small data-cleaning exercises."],
+["Tables with pandas","Load, inspect and filter tabular data.","Summarize a CSV dataset."],
+["Clean data","Handle missing values, duplicates and inconsistent entries.","Prepare a clean dataset."],
+["Explore patterns","Use averages, counts and simple charts.","Create three useful charts."],
+["Statistics basics","Learn mean, median, spread and correlation carefully.","Write a short findings note."],
+["Mini analysis project","Ask a question and analyze a suitable dataset.","Create a small analysis report."],
+["Review & present","Explain your method, findings and limitations.","Share your notebook or report."]
+],
+"Artificial Intelligence":[
+["AI foundations","Learn what AI, machine learning and generative AI mean.","List everyday AI examples."],
+["Python & data basics","Practice Python fundamentals and simple data structures.","Complete small Python exercises."],
+["Math essentials","Review averages, graphs, probability and basic vectors.","Solve simple data exercises."],
+["Machine learning idea","Learn features, labels, training and testing.","Describe a prediction problem."],
+["First model","Follow a beginner tutorial using a safe sample dataset.","Train a simple example model."],
+["Evaluate results","Understand accuracy, overfitting and data quality.","Compare model results."],
+["Responsible AI","Explore bias, privacy, reliability and limitations.","Write a responsible-use checklist."],
+["Mini project & review","Complete a small guided project and explain its limits.","Present your model and findings."]
+],
+"UI/UX Design":[
+["UX foundations","Learn users, problems, accessibility and design goals.","Write a simple user problem statement."],
+["Research & personas","Practice interview questions and user journey mapping.","Draft a basic user journey."],
+["Information structure","Organize pages, content and navigation.","Create a simple sitemap."],
+["Wireframes","Sketch low-detail screens before adding colors.","Wireframe three screens."],
+["Visual design","Practice hierarchy, spacing, typography and color contrast.","Create a small style guide."],
+["Prototype","Connect screens into a clickable flow.","Prototype one key user task."],
+["Test & improve","Ask a few people to try the design and note friction.","Improve the prototype."],
+["Portfolio case study","Explain the problem, process, decisions and result.","Create a short case study."]
+],
+"Cybersecurity":[
+["Security foundations","Learn confidentiality, integrity, availability and common threats.","Make a personal security checklist."],
+["Networks basics","Understand IP, DNS, HTTP/HTTPS and ports.","Draw a basic web request."],
+["Operating systems","Learn files, users, permissions and updates.","Review your own device security."],
+["Web security basics","Study authentication, input validation and common risks.","Identify risks in a toy example."],
+["Safe lab practice","Use only legal training labs and intentionally vulnerable demos.","Complete a beginner lab."],
+["Monitoring & response","Learn logs, alerts, backups and incident steps.","Write a basic incident checklist."],
+["Defensive mini project","Build a password-strength checker or security guide.","Create a defensive tool or guide."],
+["Review & ethics","Revise concepts, responsible disclosure and legal boundaries.","Present your learning summary."]
+]
+};
+const resources = {
+"Python Programming":[["Python for Everybody","Free beginner course and practice","https://www.py4e.com/","🐍"],["Official Python Tutorial","Reference for Python syntax and concepts","https://docs.python.org/3/tutorial/","📘"],["Kaggle Learn: Python","Short interactive exercises","https://www.kaggle.com/learn/python","🧪"]],
+"Web Development":[["MDN Learn Web Development","Structured HTML, CSS and JavaScript guides","https://developer.mozilla.org/en-US/docs/Learn","🌐"],["freeCodeCamp","Project-based web development lessons","https://www.freecodecamp.org/learn/","🛠️"],["W3Schools","Quick examples and browser practice","https://www.w3schools.com/","📚"]],
+"Java Programming":[["dev.java Learn","Official Java learning resources","https://dev.java/learn/","☕"],["W3Schools Java","Beginner explanations and examples","https://www.w3schools.com/java/","📘"],["HackerRank Java","Practice programming challenges","https://www.hackerrank.com/domains/java","🧩"]],
+"Data Science":[["Kaggle Learn","Short data and Python tutorials","https://www.kaggle.com/learn","📊"],["pandas Getting Started","Official data analysis tutorials","https://pandas.pydata.org/docs/getting_started/","🐼"],["Google Colab","Run notebooks in your browser","https://colab.research.google.com/","☁️"]],
+"Artificial Intelligence":[["Elements of AI","Accessible AI fundamentals course","https://www.elementsofai.com/","✨"],["Google Machine Learning Crash Course","Guided ML lessons and exercises","https://developers.google.com/machine-learning/crash-course","🤖"],["Kaggle Learn","Hands-on introductory ML lessons","https://www.kaggle.com/learn","🧪"]],
+"UI/UX Design":[["Figma Learn","Design and prototyping tutorials","https://help.figma.com/hc/en-us/categories/360002051613-Learn-design","🎨"],["Nielsen Norman Group","UX research and usability articles","https://www.nngroup.com/articles/","🔎"],["Google UX resources","UX learning and design guidance","https://grow.google/certificates/ux-design/","🧭"]],
+"Cybersecurity":[["Cisco Skills for All","Introductory cybersecurity learning","https://skillsforall.com/","🛡️"],["TryHackMe","Guided cybersecurity learning labs","https://tryhackme.com/","🧩"],["OWASP Top 10","Learn common web application risks","https://owasp.org/www-project-top-ten/","🔐"]]
+};
+const goalAdvice={college:"Focus on fundamentals, short revision sessions and practice questions.",career:"Focus on practical skills, a portfolio project and explaining your decisions.",project:"Choose a small project early and add features as you learn.",explore:"Try each concept with curiosity; keep notes on what interests you."};
+function makePlan(){
+ const skill=document.getElementById('skill').value, level=document.getElementById('level').value, duration=Number(document.getElementById('duration').value), mins=Number(document.getElementById('hours').value), goal=document.getElementById('goal').value, projects=document.getElementById('projects').checked;
+ document.getElementById('planTitle').textContent='Your '+skill+' learning path';
+ document.getElementById('planSubtitle').textContent=goalAdvice[goal];
+ document.getElementById('metaDuration').textContent='🗓️ '+duration+' weeks';
+ document.getElementById('metaTime').textContent='⏱️ '+(mins<60?mins+' min/day':(mins/60)+' hour'+(mins===60?'':'s')+'/day');
+ document.getElementById('metaLevel').textContent=(level==='Beginner'?'🌱 ':level==='Intermediate'?'🌿 ':'🚀 ')+level;
+ const base=plans[skill], list=document.getElementById('pathList');list.innerHTML='';
+ for(let w=0;w<duration;w++){
+   const idx=Math.min(base.length-1,Math.floor(w*base.length/duration)), item=base[idx];
+   const title=duration<8&&w===duration-1&&projects?'Project + review: '+item[0]:item[0];
+   const div=document.createElement('div');div.className='week';
+   div.innerHTML='<div class="weekno">WEEK '+(w+1)+'</div><div class="weekbody"><h4></h4><p></p>'+(projects?'<div class="deliverable"></div>':'')+'</div>';
+   div.querySelector('h4').textContent=title;
+   div.querySelector('p').textContent=item[1];
+   if(projects)div.querySelector('.deliverable').textContent='✓ Practice: '+item[2];
+   list.appendChild(div);
+ }
+ const cl=document.getElementById('courseList');cl.innerHTML='';
+ resources[skill].forEach(r=>{const a=document.createElement('article');a.className='course';a.innerHTML='<div class="course-icon"></div><div><h4></h4><p></p></div><a target="_blank" rel="noopener">Open resource ↗</a>';a.querySelector('.course-icon').textContent=r[3];a.querySelector('h4').textContent=r[0];a.querySelector('p').textContent=r[1];a.querySelector('a').href=r[2];cl.appendChild(a)});
+ document.getElementById('toast').style.display='block';
+ document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.getElementById('plannerForm').addEventListener('submit',e=>{e.preventDefault();makePlan()});
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));const path=t.dataset.tab==='path';document.getElementById('pathPanel').style.display=path?'block':'none';document.getElementById('coursePanel').style.display=path?'none':'block'}));
+makePlan();
+</script>
+</body>
+</html>
